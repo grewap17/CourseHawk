@@ -70,14 +70,21 @@ function App() {
   useEffect(initAutocomplete, [suggestions]);
 
   //submit form fucntion
-
-  const submitForm = (e) => {
+const submitForm = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/', {inputValue}).then((response) => {console.log(response.data);})
-    .catch((error) => {
-      console.error('Error making API call:', error);
-    });  ;
+    // Make a POST request to the backend
+    axios
+      .post('http://localhost:8080/payload', { inputValue })
+      .then((response) => {
+        console.log(response.data);
+        // setResponseMessage(`Server response: ${response.data.message}, Received: ${response.data.receivedInput}`);
+      })
+      .catch((error) => {
+        console.error('Error making API call:', error);
+      });
+      console.log(inputValue);
   };
+
 
   // Render the navigation bar
   const renderNavBar = () => (
