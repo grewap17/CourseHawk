@@ -73,16 +73,17 @@ function App() {
 const submitForm = (e) => {
     e.preventDefault();
     // Make a POST request to the backend
+    // let course = JSON.stringify(inputValue);
+    // let courseCode = course[inputValue].replace(' ', '-');
+    let corseCode = inputValue.replace(' ','-') ;
     axios
-      .post('http://localhost:8080/payload', { inputValue })
+      .post('http://localhost:8080/payload', {input:corseCode} )
       .then((response) => {
         console.log(response.data);
-        // setResponseMessage(`Server response: ${response.data.message}, Received: ${response.data.receivedInput}`);
       })
       .catch((error) => {
         console.error('Error making API call:', error);
       });
-      console.log(inputValue);
   };
 
 

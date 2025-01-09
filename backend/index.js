@@ -17,10 +17,9 @@ async function scrapeMcMasterPage(courseCode) {
 
     try {
         // Navigate to the page and maximize window
-        await driver.get(
+        await driver.get(//
         `https://mytimetable.mcmaster.ca/criteria.jsp?access=0&lang=en&tip=0&page=results&scratch=0&advice=0&legend=1&term=3202510&sort=none&filters=liiiiiiiii&bbs=&ds=&cams=MCMSTiSNPOL_MCMSTiMHK_MCMSTiMCMST_MCMSTiOFF_MCMSTiCON&locs=any&isrts=any&ses=any&pl=&pac=1&course_0_0=${code}&va_0_0=aaf2&sa_0_0=llll&cs_0_0=&cpn_0_0=&csn_0_0=&ca_0_0=&dropdown_0_0=ss&ig_0_0=0&rq_0_0=&bg_0_0=0&cr_0_0=&ss_0_0=0&sbc_0_0=0`
-        //'https://mytimetable.mcmaster.ca/criteria.jsp?access=0&lang=en&tip=0&page=results&scratch=0&advice=0&legend=1&term=3202510&sort=none&filters=liiiiiiiii&bbs=&ds=&cams=MCMSTiSNPOL_MCMSTiMHK_MCMSTiMCMST_MCMSTiOFF_MCMSTiCON&locs=any&isrts=any&ses=any&pl=&pac=1&course_0_0=SFWRENG-2AA4&va_0_0=aaf2&sa_0_0=llll&cs_0_0=&cpn_0_0=&csn_0_0=&ca_0_0=&dropdown_0_0=ss&ig_0_0=0&rq_0_0=&bg_0_0=0&cr_0_0=&ss_0_0=0&sbc_0_0=0'
-          );
+        );
         await driver.manage().window().maximize();
 
         // Wait for the button to become clickable
@@ -42,7 +41,7 @@ async function scrapeMcMasterPage(courseCode) {
         let scrapedText = await element.getText();
         return scrapedText;
     } catch (err) {
-      throw err;
+      // throw err;
     } finally {
         // Ensure the browser is closed
         await driver.quit();
@@ -63,15 +62,15 @@ app.use(express.json());
 app.post('/payload', async (req, res) => {
   try {
 
-  const {inputValue} = req.body;
-  console.log('Received input:', inputValue);
+  const {input} = req.body;
+  console.log('Received input:', input);
 
-  let courseSchedule = await scrapeMcMasterPage(inputValue);
-  console.log('Scraped schedule:', courseSchedule);
+  let courseSchedule = await scrapeMcMasterPage(input);
+  // console.log('Scraped schedule:', courseSchedule);
   
   res.json({x:courseSchedule});}
   catch (error) {
-    console.error('Error during scraping:', error);
+    // console.error('Error during scraping:', error);
   }
 });
 
