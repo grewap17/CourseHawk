@@ -1,13 +1,15 @@
 /* General Navbar Styles */
+/* General Navbar Styles */
 nav {
   background-color: #f8f9fa;
-  padding: 1rem;
+  padding: 1.2rem;
 }
 
 .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* Keeps space between brand and other items */
 }
 
 .brand {
@@ -15,8 +17,11 @@ nav {
   font-weight: bold;
   text-decoration: none;
   color: #343a40;
+  flex-grow: 1;
+  /* Allows brand to take up remaining space */
+  text-align: left;
+  /* Centers the text */
 }
-
 .toggle-button {
   background: none;
   border: none;

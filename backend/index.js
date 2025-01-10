@@ -51,8 +51,6 @@ async function scrapeMcMasterPage(courseCode) {
 
 
 app.use(cors());
-
-
 app.get('/', (req, res) => {
   console.log('GET request received at /');
   res.send('Input received successfully');
@@ -66,11 +64,15 @@ app.post('/payload', async (req, res) => {
   console.log('Received input:', input);
 
   let courseSchedule = await scrapeMcMasterPage(input);
-  // console.log('Scraped schedule:', courseSchedule);
-  
-  res.json({x:courseSchedule});}
+  console.log('Scraped schedule:', courseSchedule);
+
+  let lines = courseSchedule.split('\n'); // Split the string into an array of lines
+  let lecOpenOrClosed = lines.filter(line => line.startsWith('LEC')||line.startsWith('LAB')||line.startsWith('TUT'));
+  console.log(' :', lecOpenOrClosed);
+
+  res.json({x:lecOpenOrClosed,y:input});}
   catch (error) {
-    // console.error('Error during scraping:', error);
+    console.error('Error during scraping:', error);
   }
 });
 
