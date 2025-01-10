@@ -4,6 +4,7 @@ const cors = require('cors');
 const { exec } = require('child_process'); // Import child_process to execute scripts
 const { Builder, By, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
+const PORT = process.env.PORT || 8080;
 
 async function scrapeMcMasterPage(courseCode) {
     // Configure Chrome to run in headless mode
@@ -52,8 +53,8 @@ async function scrapeMcMasterPage(courseCode) {
 
 app.use(cors());
 app.get('/', (req, res) => {
-  console.log('GET request received at /');
-  res.send('Input received successfully');
+  console.log('GET request received at /YYYYY');
+  res.send('SADWQFe mw,jrgnkb!!!!');
 });
 
 app.use(express.json());
@@ -79,7 +80,7 @@ app.post('/payload', async (req, res) => {
 
 
 
-app.listen(8080, () => {
-  console.log('Server restarted91. Listening on port 8080');
+app.listen(PORT, () => {
+  console.log('Server restarted1291. Listening on port 8080');
 })
 

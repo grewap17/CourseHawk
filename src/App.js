@@ -151,7 +151,7 @@ const submitForm = (e) => {
               <input
                 type="search"
                 id="searchInput"
-                placeholder="E.G. SFWRENG 3DB3"
+                placeholder="E.G. SFWRENG 3DX4"
                 aria-label="Search"
                 className="form-control"
                 style={{ fontSize: '0.875rem', color: '#6c757d' }}
@@ -218,8 +218,8 @@ const renderCourseDisplay = () => (
             </tbody>
           </table>
         </div>
-        <a href="#" className="card-link">Card link</a>
-        <a href="#" className="card-link">Another link</a>
+        <a href="#" className="card-link">Cancel</a>
+        <a href="#" className="card-link">Continue</a>
       </div>
     </div>
 );
