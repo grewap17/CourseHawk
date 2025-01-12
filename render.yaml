@@ -1,8 +1,4 @@
-# Use an official Ubuntu base image
-FROM ubuntu:22.04
 
-# Set the working directory inside the container
-WORKDIR /app
 
 # Install essential packages and dependencies
 RUN apt-get update && \
