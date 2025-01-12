@@ -15,9 +15,12 @@ function App() {
     'CIVENG 1ZZ5',
   ]);
 
-  const [loading, setLoading] = React.useState(false);
+const [loading, setLoading] = React.useState(false);
 const [lecSchedulePayload, setLecSchedulePayload] = useState([]); // Initialize as an empty array
 const [coursePayload, setcoursePayload] = useState(''); 
+const [iscourseClosed, setiscourseClosed] = useState(false);
+const [responseMessage, setResponseMessage] = useState('');
+const [continueJob, setContinueJob] = useState(false); 
 
 
   // Toggle the navigation menu
@@ -89,6 +92,12 @@ const submitForm = (e) => {
       setLecSchedulePayload(lecOpenOrClosed);
       setcoursePayload("  "+coursePayload);
 
+      // Check if all courses are closed
+      const allCoursesClosed = lecOpenOrClosed.every((lec) => lec.isClosed);
+
+      // Set isSubmitted based on whether all courses are closed
+      setiscourseClosed(allCoursesClosed);
+
 
       })
       .catch((error) => {
@@ -97,11 +106,40 @@ const submitForm = (e) => {
       });
   };
 
-  const [responseMessage, setResponseMessage] = useState('');
+
+  // Set interval for API call every hour for 24 hours after submission
+  useEffect(() => {
+    let interval;
+    let timeout;
+
+    if (iscourseClosed) {
+      // Start the API call every hour
+      interval = setInterval(() => {
+        submitForm({ preventDefault: () => {} }); // Call submitForm without the event
+      }, 1000 * 60 * 60); // 1 hour in milliseconds
+
+      // Stop the interval after 24 hours
+      timeout = setTimeout(() => {
+        clearInterval(interval);
+        console.log('Finished 24 hours of API calls.');
+              if (iscourseClosed) {
+        setContinueJob(true); // Set continueJob to true when the task is done
+      }
+      }, 1000 * 60 * 60 * 24); // 24 hours in milliseconds
+    }
+
+    // Cleanup on component unmount or when isSubmitted changes
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [iscourseClosed]); // This hook runs when isSubmitted changes
+
+
 
   useEffect(() => {
     // Make GET request to the backend
-    axios.get('https://coursehawk-expressjs-mongodb-125-dkchcwcwcncnbbb2.canadacentral-01.azurewebsites.net/')
+    axios.get('http://localhost:8080/payload')
       .then((response) => {
         console.log('Response received:', response.data);
         setResponseMessage(response.data); // Set the response message in state
@@ -130,10 +168,7 @@ const submitForm = (e) => {
         <div className={`menu ${isMenuOpen ? 'active' : ''}`}>
           <ul className="nav-links">
             <li>
-              <a href="#">Home</a>
-            </li>
-            <li>
-              <a href="#">Watchlist</a>
+              <a href="#">Help</a>
             </li>
           </ul>
         </div>
@@ -198,13 +233,8 @@ const submitForm = (e) => {
   // Render the course display
 const renderCourseDisplay = () => (
 
-      <div class="card" style={{  marginTop:"15px",  boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-    width: "42%",
-    display: "flex",
-    justifyContent: "center",
-    margin: "0 auto",  // This centers the card horizontally
-}}>
-        <div class="card-header">
+      <div class="card card-custom" >
+        <div class="card-header" >
          <b>My Course(s)</b>
         </div>
       
@@ -231,8 +261,8 @@ const renderCourseDisplay = () => (
             </tbody>
           </table>
         </div>
-        <a href="#" className="card-link">Cancel</a>
-        <a href="#" className="card-link">Continue</a>
+        <a style={{paddingLeft:"10px"}} href="#" className={`card-link ${iscourseClosed ? '' : 'disabled-link'}`}>Cancel</a>
+        <a href="#" style={{paddingRight:"5px"}} className={`card-link ${continueJob ? '' : 'disabled-link'}`}>Continue</a>
       </div>
     </div>
 );

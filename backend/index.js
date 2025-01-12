@@ -52,10 +52,10 @@ async function scrapeMcMasterPage(courseCode) {
 
 
 app.use(cors());
-app.get('/', (req, res) => {
-  console.log('GET request received at /YYYYY');
-  res.send('SADWQFe mw,jrgnkb!!!!');
-});
+// app.get('/', (req, res) => {
+//   console.log('GET request received at /YYYYY');
+//   res.send('SADWQFe mw,jrgnkb!!!!');
+// });
 
 app.use(express.json());
 app.post('/payload', async (req, res) => {
