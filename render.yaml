@@ -6,11 +6,10 @@ services:
     buildCommand: 'npm install'
     startCommand: 'npm start'
     github:
-      repo: <your-github-username>/<your-repo-name>
+      repo: https://github.com/grewap17/CourseHawk
       branch: main  # The branch you want to deploy from
     autoDeploy: true  # Set to false if you don't want auto-deploy
     envVars:
       - key: NODE_ENV
         value: production
-    regions:
-      - oregon  # You can choose from other Render regions like 'california', 'virginia', etc.
+    regions: oregon  # You can choose from other Render regions like 'california', 'virginia', etc.
