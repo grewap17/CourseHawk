@@ -1,0 +1,56 @@
+# Use an official Ubuntu base image
+FROM ubuntu:22.04
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Install essential packages and dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    openjdk-11-jdk \
+    maven \
+    wget \
+    unzip \
+    xvfb \
+    libxi6 \
+    libgconf-2-4 \
+    gnupg \
+    curl \
+    ca-certificates \
+    nodejs \
+    npm \
+    firefox \
+    && rm -rf /var/lib/apt/lists/*
+
+# Fetch the latest stable Chrome version and install Chrome and ChromeDriver
+RUN CHROME_VERSION=$(curl -sSL https://googlechromelabs.github.io/chrome-for-testing/ | awk -F 'Version:' '/Stable/ {print $2}' | awk '{print $1}' | sed 's/<code>//g; s/<\/code>//g') && \
+    CHROME_URL="https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" && \
+    echo "Fetching Chrome version: ${CHROME_VERSION}" && \
+    curl -sSL ${CHROME_URL} -o /tmp/chrome-linux64.zip && \
+    mkdir -p /opt/google/chrome && \
+    mkdir -p /usr/local/bin && \
+    unzip -q /tmp/chrome-linux64.zip -d /opt/google/chrome && \
+    rm /tmp/chrome-linux64.zip
+
+# Install Node.js (LTS version) and npm dependencies (if you are using them)
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
+# Install global npm dependencies (if needed)
+# For example, install Cypress if you're using it for testing
+RUN npm install -g cypress
+
+# Copy your Node.js project files into the container
+COPY . .
+
+# Install project dependencies using npm
+RUN npm install
+
+# Build and compile the project using Maven (optional step for projects needing Maven)
+RUN mvn clean install -DskipTests
+
+# Expose port 8080 or any other port your app runs on
+EXPOSE 8080
+
+# Command to run the Node.js app
+CMD ["npm", "start"]
