@@ -10,6 +10,6 @@ services:
       branch: main  # The branch you want to deploy from
     autoDeploy: true  # Set to false if you don't want auto-deploy
     envVars:
-      - key: NODE_ENV
+      key: NODE_ENV
         value: production
     region: oregon  # You can choose from other Render regions like 'california', 'virginia', etc.
