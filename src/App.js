@@ -73,7 +73,7 @@ const submitForm = (e) => {
     // Make a POST request to the backend
     let corseCode = inputValue.replace(' ','-') ;
     axios
-      .post('coursehawk-expressjs-mongodb-125-dkchcwcwcncnbbb2.canadacentral-01.azurewebsites.net/payload', {input:corseCode} )
+      .post('https://coursehawk-expressjs-mongodb-125-dkchcwcwcncnbbb2.canadacentral-01.azurewebsites.net/payload', {input:corseCode} )
       .then((response) => {
         setLoading(false); // Hide the loading modal
 
