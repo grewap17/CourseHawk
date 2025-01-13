@@ -95,7 +95,7 @@ const submitForm = (e) => {
       // Check if all courses are closed
       const allCoursesClosed = lecOpenOrClosed.every((lec) => lec.isClosed);
 
-      // Set isSubmitted based on whether all courses are closed
+      // Set iscourseClosed based on whether all courses are closed
       setiscourseClosed(allCoursesClosed);
 
 
@@ -139,7 +139,7 @@ const submitForm = (e) => {
 
   useEffect(() => {
     // Make GET request to the backend
-    axios.get('http://localhost:8080/payload')
+    axios.get('coursehawk-expressjs-mongodb-125-dkchcwcwcncnbbb2.canadacentral-01.azurewebsites.net/payload')
       .then((response) => {
         console.log('Response received:', response.data);
         setResponseMessage(response.data); // Set the response message in state
