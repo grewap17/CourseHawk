@@ -137,24 +137,13 @@ const submitForm = (e) => {
 
 
 
-  useEffect(() => {
-    // Make GET request to the backend
-    axios.get('coursehawk-expressjs-mongodb-125-dkchcwcwcncnbbb2.canadacentral-01.azurewebsites.net/payload')
-      .then((response) => {
-        console.log('Response received:', response.data);
-        setResponseMessage(response.data); // Set the response message in state
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
 
   // Render the navigation bar
   const renderNavBar = () => (
     <nav className='sticky-top navbar-light bg-light'>
       <div className="container">
         <a href="#" className="brand">
-          CourseHawk - McMaster University {responseMessage}
+          CourseHawk - McMaster University 
         </a>
         <button
           className="toggle-button"
