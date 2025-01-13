@@ -3402,6 +3402,7 @@ const [coursePayload, setcoursePayload] = useState('');
 const [iscourseClosed, setiscourseClosed] = useState(false);
 const [responseMessage, setResponseMessage] = useState('');
 const [continueJob, setContinueJob] = useState(false); 
+const [iscourseOffered, setiscourseOffered] = useState(false);
 
 
   // Toggle the navigation menu
@@ -3467,18 +3468,20 @@ const submitForm = (e) => {
         return {
           course: line,
           isClosed: line.includes('Closed'), // Check if the line contains 'Closed'
+          isOffered: !line.includes('Course not currently offered (Closed)')
         };
       });
 
       setLecSchedulePayload(lecOpenOrClosed);
       setcoursePayload("  "+coursePayload);
 
-      // Check if all courses are closed
+      // Check if all courses are closed/offered
       const allCoursesClosed = lecOpenOrClosed.every((lec) => lec.isClosed);
+      const iscourseOffered = lecOpenOrClosed.every((lec) => lec.isOffered);
 
       // Set iscourseClosed based on whether all courses are closed
       setiscourseClosed(allCoursesClosed);
-
+      setiscourseOffered(iscourseOffered);
 
       })
       .catch((error) => {
@@ -3493,7 +3496,7 @@ const submitForm = (e) => {
     let interval;
     let timeout;
 
-    if (iscourseClosed) {
+    if (iscourseClosed && iscourseOffered) {
       // Start the API call every hour
       interval = setInterval(() => {
         submitForm({ preventDefault: () => {} }); // Call submitForm without the event
@@ -3631,7 +3634,7 @@ const renderCourseDisplay = () => (
             </tbody>
           </table>
         </div>
-        <a style={{paddingLeft:"10px"}} href="#" className={`card-link ${iscourseClosed ? '' : 'disabled-link'}`}>Cancel</a>
+        <a style={{paddingLeft:"10px"}} href="#" className={`card-link ${iscourseClosed && iscourseOffered ? '' : 'disabled-link'}`}>Cancel</a>
         <a href="#" style={{paddingRight:"5px"}} className={`card-link ${continueJob ? '' : 'disabled-link'}`}>Continue</a>
       </div>
     </div>
